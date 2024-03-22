@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ChatGPT</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js"></script>
+    <script>
+const userAction = async () => {
+    const input = document.forms["input"]["input"].value.trim();
+    if (!input) return;
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: "POST",
+        body: JSON.stringify({
+            "model": "gpt-3.5-turbo",
+            "messages": [{
+                "role": "assistant",
+                "content": input
+            }]
+        }),
+        headers: {
+            "content-type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+        }
+    }).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
+
+    if (response) {
+        const outputElement = document.getElementById("output");
+        outputElement.innerHTML += `You: ${input}<br><br>`;
+
+        let i = 0;
+        const intervalId = setInterval(() => {
+            outputElement.innerHTML += response.choices[0].message.content.charAt(i);
+            i++;
+            if (i >= response.choices[0].message.content.length) {
+                clearInterval(intervalId);
+				outputElement.innerHTML += "<br><br>";
+            }
+        }, 50);
+
+        document.forms["input"]["input"].value = "";
+    }
+}
+
+
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <p id="output" class="response"></p>
+            <form id="input">
+                <textarea name="reply" placeholder="" readonly style="display: none;"></textarea>
+                <textarea name="input" autofocus placeholder="User input" style="width: 95%; height: 100px;"></textarea><br>
+                <button type="button" onclick="userAction()" class="ask-button">Ask</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

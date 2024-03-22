@@ -1,0 +1,72 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Courier New;
+    text-align: center;
+}
+
+.wrapper {
+    width: 100%;
+    display: inline-flex;
+    text-align: left;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
+
+textarea, button {
+    margin: 10px 0;
+    font-family: Courier New;
+    font-size: 16px;
+}
+
+.ask-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ask-button:hover {
+    background-color: #0056b3;
+}
+.response {
+    color: red;
+    font-weight: bold;
+    font-style: italic;
+    animation: typing 1s steps(10, end) forwards;
+    font-size: 18px;
+    white-space: pre-line;
+}
+
+#input textarea[name="input"] {
+    font-family: Times New Roman;
+}
+
+.output {
+    color: red;
+    font-size: larger;
+}
+
+input[name="input"] {
+    font-family: Times New Roman;
+}
+
+.output + .output {
+    margin-top: 2em;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
